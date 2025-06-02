@@ -1,36 +1,38 @@
-const slides = document.querySelectorAll('.slide');
-const prev = document.getElementById('prev');
-const next = document.getElementById('next');
-let current = 0;
-const now = new Date().getTime();
-const threeDays = 3 * 24 * 60 * 60 * 1000;
+var slides = document.querySelectorAll('.slide');
+var prev = document.getElementById('prev');
+var next = document.getElementById('next');
+var current = 0;
+var now = new Date().getTime();
+var threeDays = 3 * 24 * 60 * 60 * 1000;
 function setSliderData() {
-  localStorage.setItem("sliderShown", "yes");
-  localStorage.setItem("sliderExpiry", (now + threeDays).toString());
+    localStorage.setItem("sliderShown", "yes");
+    localStorage.setItem("sliderExpiry", (now + threeDays).toString());
 }
 function checkSliderExpiry() {
-  const expiry = localStorage.getItem("sliderExpiry");
-  if (!expiry || new Date().getTime() > Number(expiry)) {
-    localStorage.removeItem("sliderShown");
-    localStorage.removeItem("sliderExpiry");
-    console.log("Slider müddəti bitib, məlumat silindi.");
-  }
+    var expiry = localStorage.getItem("sliderExpiry");
+    if (!expiry || new Date().getTime() > Number(expiry)) {
+        localStorage.removeItem("sliderShown");
+        localStorage.removeItem("sliderExpiry");
+        console.log("Slider müddəti bitib, məlumat silindi.");
+    }
 }
 function showSlide(index) {
-  slides.forEach(slide => slide.classList.remove('active'));
-  slides[index].classList.add('active');
+    slides.forEach(function (slide) { return slide.classList.remove('active'); });
+    slides[index].classList.add('active');
 }
-
-prev.addEventListener('click', () => {
-  current = (current - 1 + slides.length) % slides.length;
-  showSlide(current);
+prev.addEventListener('click', function () {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
 });
-next.addEventListener('click', () => {
-  current = (current + 1) % slides.length;
-  showSlide(current);
+next.addEventListener('click', function () {
+    current = (current + 1) % slides.length;
+    showSlide(current);
 });
-checkSliderExpiry(); 
-
-!localStorage.getItem("sliderShown") ? setSliderData(): console.log(" ") 
+checkSliderExpiry();
+if (!localStorage.getItem("sliderShown")) {
+    setSliderData();
+}
+else {
+    console.log("Slider artıq göstərilib.");
+}
 showSlide(current);
-
