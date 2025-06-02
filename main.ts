@@ -1,6 +1,6 @@
 const slides = document.querySelectorAll<HTMLElement>('.slide');
-const prev = document.getElementById('prev') as HTMLButtonElement;
-const next = document.getElementById('next') as HTMLButtonElement;
+const prev = document.getElementById('prev') as HTMLButtonElement | null;
+const next = document.getElementById('next') as HTMLButtonElement | null;
 
 let current: number = 0;
 const now: number = new Date().getTime();
@@ -21,19 +21,22 @@ function checkSliderExpiry(): void {
 }
 
 function showSlide(index: number): void {
+  if (slides.length === 0) return; 
   slides.forEach(slide => slide.classList.remove('active'));
   slides[index].classList.add('active');
 }
 
-prev.addEventListener('click', () => {
-  current = (current - 1 + slides.length) % slides.length;
-  showSlide(current);
-});
+if (prev && next) {
+  prev.addEventListener('click', () => {
+    current = (current - 1 + slides.length) % slides.length;
+    showSlide(current);
+  });
 
-next.addEventListener('click', () => {
-  current = (current + 1) % slides.length;
-  showSlide(current);
-});
+  next.addEventListener('click', () => {
+    current = (current + 1) % slides.length;
+    showSlide(current);
+  });
+}
 
 checkSliderExpiry();
 
@@ -44,3 +47,19 @@ if (!localStorage.getItem("sliderShown")) {
 }
 
 showSlide(current);
+
+
+const themeBtn = document.querySelector(".Change")
+const body = document.body
+const mode = localStorage.getItem("theme") || "white"
+body.classList.add(mode)
+
+themeBtn?.addEventListener("click" , () => {
+  if(body.classList.contains("dark")){
+    body.classList.replace("dark" , "white")
+    localStorage.setItem("theme"  , "white")
+  }else{
+    body.classList.replace("white" , "dark")
+    localStorage.setItem("theme" , "dark")
+  }
+})

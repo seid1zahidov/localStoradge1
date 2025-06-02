@@ -3,22 +3,14 @@
     padding: 0;
     box-sizing: border-box;
 }
-.div.dark{
-    background-color: brown;
+body.dark{
+    background-color: rgb(0, 0, 0);
     color: #fff;
 }
-.div.white{
+body.white{
     background-color: #fff;
     color: black;
 } 
-
-
-
-
-
-
-
-
 
 
 .slider {

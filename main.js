@@ -17,17 +17,21 @@ function checkSliderExpiry() {
     }
 }
 function showSlide(index) {
+    if (slides.length === 0)
+        return;
     slides.forEach(function (slide) { return slide.classList.remove('active'); });
     slides[index].classList.add('active');
 }
-prev.addEventListener('click', function () {
-    current = (current - 1 + slides.length) % slides.length;
-    showSlide(current);
-});
-next.addEventListener('click', function () {
-    current = (current + 1) % slides.length;
-    showSlide(current);
-});
+if (prev && next) {
+    prev.addEventListener('click', function () {
+        current = (current - 1 + slides.length) % slides.length;
+        showSlide(current);
+    });
+    next.addEventListener('click', function () {
+        current = (current + 1) % slides.length;
+        showSlide(current);
+    });
+}
 checkSliderExpiry();
 if (!localStorage.getItem("sliderShown")) {
     setSliderData();
@@ -36,3 +40,17 @@ else {
     console.log("Slider artıq göstərilib.");
 }
 showSlide(current);
+var themeBtn = document.querySelector(".Change");
+var body = document.body;
+var mode = localStorage.getItem("theme") || "white";
+body.classList.add(mode);
+themeBtn === null || themeBtn === void 0 ? void 0 : themeBtn.addEventListener("click", function () {
+    if (body.classList.contains("dark")) {
+        body.classList.replace("dark", "white");
+        localStorage.setItem("theme", "white");
+    }
+    else {
+        body.classList.replace("white", "dark");
+        localStorage.setItem("theme", "dark");
+    }
+});
